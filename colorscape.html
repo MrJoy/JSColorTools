@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <script src="colorscape.js"></script>
+  </head>
+  <body>
+    <h1>Hello, World!</h1>
+    <br/>
+    <div>This example shows what happens if you shift from red to green using the
+    usual RGB colorspace, and if you use the HSB colorspace.</div>
+    <br/>
+
+    <b>Red&lt;-&gt;Green via HSB Colorspace:</b>
+    <div id="hsbContent">
+      I am the very model of a modern major general...
+    </div>
+    <br/>
+    <b>Red&lt;-&gt;Green via RGB Colorspace:</b>
+    <div id="rgbContent">
+      I am the very model of a modern major general...
+    </div>
+    <hr/>
+    Slide me to change colors:
+    <div>
+      <input id="slider" type="range" min="0" max="100" value="0" onChange="updateColors();">
+      <br/>
+      <button onClick="setToMiddle();">Set to 50%</button>
+    </div>
+
+    <script langauge="text/javascript" defer>
+      "use strict";
+      var red = new RGBColor(1, 0, 0, 1),
+        green = new RGBColor(0, 1, 0, 1),
+        slider = document.getElementById("slider"),
+        hsbDisplayArea = document.getElementById("hsbContent"),
+        rgbDisplayArea = document.getElementById("rgbContent");
+
+      function updateColors() {
+        var t = parseFloat(slider.value) / 100.0,
+          hsbMidpoint = HSBColor.lerp(red.toHSB(), green.toHSB(), t),
+          rgbMidpoint = RGBColor.lerp(red, green, t);
+
+        hsbDisplayArea.style.backgroundColor = hsbMidpoint.toHTML();
+        rgbDisplayArea.style.backgroundColor = rgbMidpoint.toHTML();
+      }
+      updateColors();
+
+      function setToMiddle() {
+        slider.value = 50;
+        updateColors();
+      }
+    </script>
+  </body>
+</html>
