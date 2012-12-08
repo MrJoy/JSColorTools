@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jscolortools by cloudability</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Jscolortools</h1>
+        <p>Some simple tools for working with colors and colorspaces in JavaScript.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/cloudability/JSColorTools" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/cloudability/JSColorTools/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/cloudability/JSColorTools/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>JSColorTools</h1>
+
+<p>This is a standalone set of very simple JS tools for doing some useful color
+manipulations.  The particular problem solved is lerping between colors in a
+more visually pleasing way than one can achieve by doing so in the HSB color
+space.</p>
+
+<p>To that end, this library provides two classes:  <code>RGBColor</code>, and <code>HSBColor</code>,
+along with functions to convert between them and to do angular lerping between
+HSB colors.</p>
+
+<p>A prime example of this is lerping between red and green smoothly.  Done in RGB
+colorspace, the midpoint will be brown.  Done in HSB colorspace, it will be
+yellow.</p>
+
+<h2>Usage</h2>
+
+<p>Create instances of <code>RGBColor</code>, or <code>HSBColor</code> by providing the components as
+parameters to the constructors.  They include an alpha component and the scale
+is from 0..1, as opposed to the 0..255 that you may be accustomed to:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">red</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RGBColor</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+  <span class="nx">green</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RGBColor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</pre></div>
+
+<p>You can convert an <code>RGBColor</code> or <code>HSBColor</code> into an HTML color string, for
+example to set the background color of an element:</p>
+
+<div class="highlight"><pre><span class="c1">// Set the background color without including an alpha value.</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"someElement"</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="nx">red</span><span class="p">.</span><span class="nx">toHTML</span><span class="p">();</span>
+</pre></div>
+
+<p>You can convert an <code>RGBColor</code> to an <code>HSBColor</code>:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">redAsHSB</span> <span class="o">=</span> <span class="nx">red</span><span class="p">.</span><span class="nx">toHSB</span><span class="p">(),</span>
+  <span class="nx">greenAsHSB</span> <span class="o">=</span> <span class="nx">green</span><span class="p">.</span><span class="nx">toHSB</span><span class="p">();</span>
+</pre></div>
+
+<p>You can lerp (blend) between two <code>RGBColor</code>s and then convert the result into
+an HTML color string, for example to set the background color of an element:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">resultHSB</span> <span class="o">=</span> <span class="nx">HSBColor</span><span class="p">.</span><span class="nx">lerp</span><span class="p">(</span><span class="nx">red</span><span class="p">.</span><span class="nx">toHSB</span><span class="p">(),</span> <span class="nx">green</span><span class="p">.</span><span class="nx">toHSB</span><span class="p">(),</span> <span class="mf">0.5</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'someElement'</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="nx">resultHSB</span><span class="p">.</span><span class="nx">toHTML</span><span class="p">();</span>
+</pre></div>
+
+<p>And if you want, you can even get an HTML color with an alpha value, although
+this doesn't work in most contexts:</p>
+
+<div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">red</span><span class="p">.</span><span class="nx">toHTML</span><span class="p">(</span><span class="kc">true</span><span class="p">));</span>
+</pre></div>
+
+<h2>License</h2>
+
+<p>This code is distributed under the MIT license, see the file MIT-LICENSE for
+more information.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/cloudability">cloudability</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
