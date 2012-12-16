@@ -13,6 +13,11 @@ A prime example of this is lerping between red and green smoothly.  Done in RGB
 colorspace, the midpoint will be brown.  Done in HSB colorspace, it will be
 yellow.
 
+## Demonstration
+
+A quick demo showing the utility of using HSB colorspace for interpolation
+can be found [here](http://cloudability.github.com/JSColorTools/).
+
 ## Usage
 
 Create instances of `RGBColor`, or `HSBColor` by providing the components as
